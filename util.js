@@ -5,13 +5,13 @@ module.exports = {
 	//tweetify expects a line of text, a valid bot name, and the call back for the resulting text
 	markovTranslate: function(line, botName, cb) {
 		var m = markov(2);
-		var s = fs.createReadStream(path.join(__dirname, botName +'/'+ botName'.txt'));
+		var s = fs.createReadStream(path.join(__dirname, botName +'/'+ botName + '.txt'));
 
-        var setJson = fs.readFile(path.join(__dirname, botName +'/'+ botName'.json'), function(err, data){
+        var setJson = fs.readFile(path.join(__dirname, botName +'/'+ botName + '.json'), function(err, data){
             if(err){
                 console.log("building markov");
                 m.seed(s, function(){
-                    fs.writeFile(path.join(__dirname, botName +'/'+ botName'.json'), m.writer());
+                    fs.writeFile(path.join(__dirname, botName +'/'+ botName + '.json'), m.writer());
                     stringSearch();
                 });
             } else {
