@@ -20,7 +20,8 @@ var twitterPost = function(text) {
 	});
 };
 
-/* GET Moby */
+
+/* GET text to translate */
 router.use('/', function(req, res, next) {
 	var feedparser = new FeedParser(),
     responses = [];
@@ -64,10 +65,10 @@ router.use('/', function(req, res, next) {
 
 
 	  });
-      //Once we've looked at all the recent titles pick a random one and markov translate it
+	  //Once we've looked at all the recent titles pick a random one and markov translate it
 	  feedparser.on('end', function(){
 	      var num = Math.floor(Math.random() * (responses.length));
-          Util.markovTranslate(responses[num].toString(), 'fsFitz', twitterPost; //passing in the cb to tweet the response
+	      Util.markovTranslate(responses[num].toString(), 'fsFitz', twitterPost; //passing in the cb to tweet the response
 	      console.log(responses[num].toString());
 	      res.json({response:responses[num].toString()})
 	  });
