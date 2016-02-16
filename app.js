@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var translator = require('./routes/translator');
 var moby = require('./routes/moby');
+var fsfitz = require('./routes/fsFitz');
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/translator', translator);
 app.use('/moby', moby);
+app.use('/fsfitz', fsfitz);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

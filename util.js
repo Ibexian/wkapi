@@ -1,30 +1,32 @@
 var fs = require('fs');
 var markov = require('markov');
+var path = require('path');
 
 module.exports = {
 	//tweetify expects a line of text, a valid bot name, and the call back for the resulting text
 	markovTranslate: function(line, botName, cb) {
+		var pathName = 'routes/' + botName +'/'+ botName;
 		var m = markov(2);
-		var s = fs.createReadStream(path.join(__dirname, botName +'/'+ botName + '.txt'));
+		var s = fs.createReadStream(path.join(__dirname, pathName + '.txt'));
 
-        var setJson = fs.readFile(path.join(__dirname, botName +'/'+ botName + '.json'), function(err, data){
+        var setJson = fs.readFile(path.join(__dirname, pathName + '.json'), function(err, data){
             if(err){
                 console.log("building markov");
                 m.seed(s, function(){
-                    fs.writeFile(path.join(__dirname, botName +'/'+ botName + '.json'), m.writer());
+                    fs.writeFile(path.join(__dirname, pathName + '.json'), m.writeExternal());
                     stringSearch();
                 });
             } else {
                 console.log("reading markov");
-                m.reader(data);
+                m.readExternal(data);
                 stringSearch();
             }
         });
 
         function stringPretty(string) {
-                var reg = new RegExp(/[,.?!\s]+/);
-                var endNum =  reg.test(string.charAt(string.length-1));
-                //Start with a capital, remove the final space, and add punctuation if there is none
+            var reg = new RegExp(/[,.?!\s]+/);
+            var endNum =  reg.test(string.charAt(string.length-1));
+            //Start with a capital, remove the final space, and add punctuation if there is none
             return string.charAt(0).toUpperCase() + string.slice(1, string.length) + (endNum ? "" : ".");
         };
 
@@ -68,6 +70,7 @@ module.exports = {
 
 		s.on('error', function(err) {
 			console.log("there has been an error");
+			console.log(err);
 		    return
 		});
 	}

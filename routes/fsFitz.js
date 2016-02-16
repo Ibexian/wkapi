@@ -9,17 +9,20 @@ var markov = require('markov');
 var Twit = require('twit');
 var Util = require('../util');
 
-var T = new Twit({
+// var T = new Twit({
 
-});
+// });
 
-var twitterPost = function(text) {
-                T.post('statuses/update', { status: text }, function(err, data, response) {
-                  console.log("data", data.id);
-                  console.log("text", text);
-	});
-};
+// var twitterPost = function(text) {
+//                 T.post('statuses/update', { status: text }, function(err, data, response) {
+//                   console.log("data", data.id);
+//                   console.log("text", text);
+// 	});
+// };
 
+var logger = function(text){
+    console.log(text);
+}
 
 /* GET text to translate */
 router.use('/', function(req, res, next) {
@@ -68,7 +71,7 @@ router.use('/', function(req, res, next) {
 	  //Once we've looked at all the recent titles pick a random one and markov translate it
 	  feedparser.on('end', function(){
 	      var num = Math.floor(Math.random() * (responses.length));
-	      Util.markovTranslate(responses[num].toString(), 'fsFitz', twitterPost); //passing in the cb to tweet the response
+	      Util.markovTranslate(responses[num].toString(), 'fsFitz', logger); //passing in the cb to tweet the response
 	      console.log(responses[num].toString());
 	      res.json({response:responses[num].toString()})
 	  });
